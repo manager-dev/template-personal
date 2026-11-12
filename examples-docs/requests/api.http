@@ -1,0 +1,42 @@
+# ==============================================================================
+# VARIABLES LOCALES DE ARCHIVO (Usando @)
+# Tienen prioridad sobre los archivos JSON y sirven para todo este archivo.
+# ==============================================================================
+@version = v1
+@contentType = application/json
+@usuarioId Temporal = 452c9381-01f1-4db3-bc61-3914ff6819dd
+
+# ==============================================================================
+# PETICIONES HTTP
+# ==============================================================================
+
+### Petición 1: Obtener el perfil usando variables de entorno y locales
+# Se separan las peticiones siempre con tres símbolos de número (###)
+GET {{url_base}}/{{version}}/users/{{usuarioIdTemporal}}
+Accept: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+###
+
+### Petición 2: Crear un nuevo recurso (Método POST)
+# Nota cómo usamos variables locales tanto en la cabecera como en el cuerpo JSON
+POST {{url_base}}/{{version}}/products
+Content-Type: {{contentType}}
+X-API-Key: {{stripe_secret_key}}
+
+{
+  "name": "Teclado Mecánico RGB",
+  "price": 89.99,
+  "stock": 50,
+  "created_by": "{{usuarioIdTemporal}}"
+}
+
+###
+
+### Petición 3: Modificar una variable local en medio del archivo
+# Puedes volver a declarar o cambiar el valor de una variable con @ en cualquier momento
+@usuarioIdTemporal = 99999999-0000-0000-0000-000000000000
+
+GET {{url_base}}/{{version}}/users/{{usuarioIdTemporal}}
+Accept: {{contentType}}
+Authorization: Bearer {{auth_token}}
